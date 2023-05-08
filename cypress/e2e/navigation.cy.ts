@@ -92,4 +92,24 @@ describe("Sidebar Navigation", () => {
       isNotInViewport("nav");
     });
   });
+
+  context("Open Default Mail App", () => {
+    beforeEach(() => {
+      cy.viewport(1025, 900);
+    });
+
+    it("should open mail on clicking Support", () => {
+      // Visit the page
+      cy.visit("http://localhost:3000/dashboard");
+
+      // Click the button
+      cy.get("nav").contains("Support").click({ force: true });
+
+      // Check if the mailto link is correct
+      cy.url().should(
+        "include",
+        "mailto:support@prolog-app.com?subject=Support Request:"
+      );
+    });
+  });
 });
