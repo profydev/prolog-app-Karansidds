@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import { Routes } from "@config/routes";
 import { NavigationContext } from "./navigation-context";
@@ -158,13 +158,29 @@ export function SidebarNavigation() {
   const router = useRouter();
   const { isSidebarCollapsed, toggleSidebar } = useContext(NavigationContext);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener(
+      "resize",
+      () => {
+        if (window.innerWidth < 1024) {
+          setIsMobile(true);
+        } else {
+          setIsMobile(false);
+        }
+      },
+      true
+    );
+  }, []);
+
   return (
     <Container isCollapsed={isSidebarCollapsed}>
       <FixedContainer>
         <Header>
           <Logo
             src={
-              isSidebarCollapsed
+              isSidebarCollapsed && !isMobile
                 ? "/icons/logo-small.svg"
                 : "/icons/logo-large.svg"
             }
