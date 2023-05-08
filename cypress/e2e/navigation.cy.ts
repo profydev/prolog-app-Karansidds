@@ -91,6 +91,13 @@ describe("Sidebar Navigation", () => {
       cy.wait(500);
       isNotInViewport("nav");
     });
+
+    it("should render a large image in the header on mobile", () => {
+      cy.get("header")
+        .get("img")
+        .should("have.attr", "src")
+        .should("include", "logo-large.svg");
+    });
   });
 
   context("Open Default Mail App", () => {
